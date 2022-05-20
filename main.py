@@ -13,8 +13,13 @@ def load_states():
         with open('task_state.json') as f:
             task_state = json.load(f)
     except FileNotFoundError:
-        with open('task_state.json', 'w') as f:
-            pass
+        task_state = {
+            'todo': dict(),
+            'in_progress': dict(),
+            'done': dict()
+            }   
+    return task_state
+
     
 def save_task_status():
     task_state = {
@@ -26,11 +31,15 @@ def save_task_status():
     with open('task_state.json', 'w') as f:
         json.dump(task_state, f, ensure_ascii=False, indent=4)
 
-load_states()
+task_state = load_states()
 
-# todo = dict()
-# in_progress = dict()
-# done = dict()
+todo = task_state['todo']
+in_progress = task_state['in_progress']
+done = task_state['done']
+
+print(todo)
+print(in_progress)
+print(done)
 
 # while True:
 #     task = input('Insira uma tarefa: ')

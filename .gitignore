@@ -1,0 +1,5 @@
+# virutal env
+venv/
+
+# json
+task_state.json

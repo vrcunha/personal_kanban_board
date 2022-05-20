@@ -37,22 +37,18 @@ todo = task_state['todo']
 in_progress = task_state['in_progress']
 done = task_state['done']
 
-print(todo)
-print(in_progress)
-print(done)
-
-# while True:
-#     task = input('Insira uma tarefa: ')
-#     if len(task) == 0:
-#         break
-#     todo[make_uuid()] = {
-#         'task': task, 
-#         'metadata': {
-#             'creation_time': datetime.now().timestamp(),
-#             'modification_time': datetime.now().timestamp(),
-#             'finalization_time': None
-#             }
-#         }
+while True:
+    task = input('Insira uma tarefa: ')
+    if len(task) == 0:
+        break
+    todo[make_uuid()] = {
+        'task': task, 
+        'metadata': {
+            'creation_time': datetime.now().timestamp(),
+            'modification_time': datetime.now().timestamp(),
+            'finalization_time': None
+            }
+        }
 
 
-# save_task_status()
+save_task_status()

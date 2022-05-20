@@ -1,5 +1,7 @@
-# virutal env
+# env
 venv/
+.flaskenv
+__pycache__
 
 # json
 task_state.json

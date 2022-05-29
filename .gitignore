@@ -3,5 +3,33 @@ venv/
 .flaskenv
 __pycache__
 
-# json
-task_state.json
+# database
+*db.json
+
+# test env
+.pytest_cache
+
+# TODO
+TODO
+
+# dependencies
+frontend/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

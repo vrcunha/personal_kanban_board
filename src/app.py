@@ -1,15 +1,23 @@
 from datetime import datetime
 from http import HTTPStatus
-from flask import Flask, jsonify, request, Response
-from src.utils.setting import setting
-from tinydb import TinyDB, Query
 from uuid import uuid4
-db = TinyDB('tasks_db.json')
 
-# from flask import Blueprint, jsonify, redirect, request, 
-def create_app():
+from flask import Flask, Response, jsonify, request
+from tinydb import Query, TinyDB
+
+from src.config import config
+from src.utils.setting import setting
+
+def create_app(env):
 
     app = Flask(__name__)
+    app.config.from_object(config[env])
+
+    db_path = app.config['DATABASE_URI']
+
+    app.config['DATABASE'] = TinyDB(db_path, indent=4)
+
+    db = app.config['DATABASE']
 
     @app.route('/', methods=['GET'], strict_slashes=False)
     def health_check():
@@ -22,24 +30,24 @@ def create_app():
     @app.route('/create_task', methods=['POST'], strict_slashes=False)
     def create_task():
         body = request.json
-        column = body.get('column')
+        column = body.get('task_column')
         task_name = body.get('task_name')
         task_description = body.get('task_description', '')
-
-        db.insert(
-            {
-                "task_column": column,
-                "task_id": str(uuid4()),
-                "task_name": task_name,
-                "task_description": task_description,
-                "metadata":{
-                    "creation_time": datetime.now().timestamp(),
-                    "modification_time": datetime.now().timestamp(),
-                    "finalization_time": None
-                }
+        
+        task_item = {
+            "task_column": column,
+            "task_id": str(uuid4()),
+            "task_name": task_name,
+            "task_description": task_description,
+            "metadata":{
+                "creation_time": datetime.now().timestamp(),
+                "modification_time": datetime.now().timestamp(),
+                "finalization_time": None
             }
-        )
-        return jsonify(body), HTTPStatus.CREATED
+        }
+        db.insert(task_item)
+
+        return jsonify(task_item), HTTPStatus.CREATED
 
     @app.route('/list_tasks', methods=['GET'], strict_slashes=False)
     def list_tasks():
